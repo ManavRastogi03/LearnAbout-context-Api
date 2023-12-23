@@ -78,3 +78,8 @@ function App() {
 }
 ```
 Feel free to explore additional Context API features and consult the official documentation for in-depth information: React Context Documentation.
+
+#Images
+
+![Screenshot 2023-12-23 144358](https://github.com/ManavRastogi03/LearnAbout-context-Api/assets/133610007/914a3d0f-f157-42c9-ae66-9d66d6294e35)
+![Screenshot 2023-12-23 144411](https://github.com/ManavRastogi03/LearnAbout-context-Api/assets/133610007/ac42959a-0e1b-4e85-aeaa-4c8662e6c70a)
