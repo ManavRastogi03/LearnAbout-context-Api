@@ -1,81 +1,96 @@
-
 # Context API README
-This README provides an overview of the Context API concepts learned during the development process. The Context API in React allows you to manage global state and share values between components without prop drilling.
+This README provides an overview of the Context API concepts and implementation details learned during the development process. The Context API in React is a powerful tool for managing state across components without prop drilling.
 
 # Table of Contents
 ## Introduction
-## Context Definition
-## ThemeProvider
-## useTheme Hook
-# Usage in Application
-1. Introduction
-The Context API in React is a mechanism for sharing values like themes, authentication status, or any other global state across the component tree without passing them explicitly as props.
+## Context Configuration
+## Theme Provider
+## Custom Hook
+## Application Integration
+## GitHub Data Fetching
+### 1. Introduction
+The Context API in React allows you to share values, such as state or functions, across components without passing them explicitly through props. This can greatly simplify the management of global or shared state within your application.
 
-2. Context Definition
-The createContext function is used to create a context object. In this example, a ThemeContext is created with initial values for the theme mode, and functions to toggle between light and dark themes.
+### 2. Context Configuration
+In your application, create a context using createContext from React. Define the context's initial state and associated functions.
 
 ```javascript
-
 import { createContext, useContext } from "react";
 
-export const ThemeContext = createContext({
+export const Themecontext = createContext({
     thememode: "Light",
     darktheme: () => {},
     lighttheme: () => {},
 });
-```
-3. ThemeProvider
-The ThemeProvider component is used to wrap your application components and provide the context values to them. In this case, it is aliased as ThemeContext.Provider.
 
-```javascript
-
-export const ThemeProvider = ThemeContext.Provider;
-4. useTheme Hook
-The useTheme custom hook is created to conveniently access the values from the ThemeContext. This hook is then used within components to access the theme mode and theme toggle functions.
-
-javascript
-Copy code
-import { useContext } from 'react';
-import { ThemeContext } from './path-to-context';
+export const ThemeProvider = Themecontext.Provider;
 
 export default function useTheme() {
-    return useContext(ThemeContext);
+    return useContext(Themecontext);
 }
 ```
-5. Usage in Application
-In your application, you can use the ThemeProvider to wrap your components and utilize the useTheme hook to access and update the theme state.
+### 3. Theme Provider
+Utilize the ThemeProvider component to wrap your application with the configured context provider. This makes the theme-related context available to all components within its scope.
 
 ```javascript
 
-import { useState } from 'react';
 import { ThemeProvider } from './context/theme';
-import { useEffect } from 'react';
-import ThemeBtn from './component/ThemeBtn';
-import Card from './component/Card';
-import useTheme from './path-to-useTheme-hook';
 
 function App() {
-  const [themeMode, setThemeMode] = useState('light');
-  const { lightTheme, darkTheme } = useTheme();
-
-  useEffect(() => {
-    const htmlElement = document.querySelector('html');
-    htmlElement.classList.remove('light', 'dark');
-    htmlElement.classList.add(themeMode);
-  }, [themeMode]);
-
-  return (
-    <ThemeProvider
-      value={{
-        themeMode,
-        lightTheme,
-        darkTheme,
-      }}
-    >
-      {/* Your application components */}
-    </ThemeProvider>
-  );
+    // ... existing code
+    return (
+        <ThemeProvider value={{ thememode, darktheme, lighttheme }}>
+            {/* Your application components */}
+        </ThemeProvider>
+    );
 }
+```
+### 4. Custom Hook
+Create a custom hook, in this case, useTheme, using the useContext hook. This hook can be used within components to access the shared theme context.
+
+### 5. Application Integration
+Integrate the theme-related context into your application components, such as the ThemeBtn and Card components. Use the useTheme hook to access the context and update the theme mode.
+
+```javascript
+
+import useTheme from './context/theme';
+
+function ThemeBtn() {
+    const { darktheme, lighttheme } = useTheme();
+    // ... existing code
+}
+
+function Card() {
+    const { thememode } = useTheme();
+    // ... existing code
+}
+```
+### 6. GitHub Data Fetching
+Extend the use of the Context API to manage global state related to GitHub data fetching. In the example, the Github component fetches data from the GitHub API and displays the follower count and profile picture.
+
+```javascript
+
+import React, { useState, useEffect } from 'react';
+
+function Github() {
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        fetch('https://api.github.com/users/ManavRastogi03')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                setData(data);
+            });
+    }, []);
+
+    return (
+        <div className='text-center m-4 bg-grey-700 text-black p-4 text-3xl '>
+            Github Follower: {data.followers}
+            <br />
+            <img src={data.avatar_url} alt="Git-Picture" />
+        </div>
+    );
 ```
 Feel free to explore additional Context API features and consult the official documentation for in-depth information: React Context Documentation.
 
